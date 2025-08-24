@@ -68,17 +68,24 @@ function renderProject (project) {
     projectSelectBtn.textContent = project.name;
     projectSelectBtn.id = project.id;
     projectContainer.append(projectSelectBtn);
+
+    document.querySelectorAll(".projects").forEach(el => {
+        el.classList.remove("active-project", "inactive-project");
+    });
+    projectSelectBtn.classList.add("active-project");
     activeProject();
     
 }
 
+//Selecting current Project (using btn) 
 export function activeProject() {
     document.querySelectorAll(".projects").forEach(project => {
         project.addEventListener("click", (e) => {
-            console.log(typeof(project.id));
+            console.log(project.id);
             console.log(`${currentProject.id} is current`)
-            console.log(projectArray)
+            project.classList.add("active-project");
 
+          
             //find index of Project in projectArray associated with projectSelectBtn
             const index = projectArray.findIndex(obj => obj.id.toString() === project.id);
             
@@ -86,7 +93,15 @@ export function activeProject() {
                 currentProject = projectArray[index];
                 console.log(currentProject);
                 renderTasks(currentProject);
+
+                document.querySelectorAll(".projects").forEach(p => {
+                 p.classList.remove("active-project", "inactive-project");
+                });
+
+                project.classList.add("active-project");
+            } else {
+                project.classList.add("inactive-project");
             }
+        });
     });
-    })
 }
