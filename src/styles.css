@@ -1,0 +1,31 @@
+#task-form{
+    height: 400px; 
+    width: 400px;
+    display: flex;
+    flex-flow: column;
+}
+
+#project-name{
+    height: 30px;
+    width: 100px;
+    border: 2px solid black;
+    padding: 3px;
+    cursor: pointer;
+}
+
+#project-name:focus, 
+#project-name:active, 
+#project-name:hover{
+    background-color: lightyellow;
+}
+
+.projects {
+    border: none;
+    font-size: 3em;
+    background-color: rgba(255, 255, 224, 0.575);
+    box-shadow: (
+        0 20px yellow,
+        0 40px yellow
+    );
+    cursor: pointer;
+}

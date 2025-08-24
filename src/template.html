@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+</head>
+<body>
+    <section id = main>
+
+        <button id = "open-task-dialog" type = "button">New Task</button>
+
+        <dialog id="task-dialog">
+            <form id="task-form" method="dialog">
+                <label for="task-name">Task Name:</label>
+                <input id="task-name" name="task-name" type="text"/>
+
+                <label for="task-date">Due Date:</label>
+                <input id="task-date" name="task-date" type="date"/>
+
+                <label for="task-desc">Description:</label>
+                <textarea id="task-desc" name="task-desc"></textarea>
+
+                <label for="task-priority">Priority:</label>
+                <select id="task-priority" name="task-priority">
+                    <option value="Urgent">Urgent</option>
+                    <option value="Important">Important</option>
+                    <option value="Low">Low</option>
+                    <option value="Done">Done</option>
+                </select>
+
+                <button id = "task-save" type="submit">Save</button>
+                <button id = "task-cancel" type="reset">Cancel</button>
+            </form>
+        </dialog>
+
+        <form id="project-form" method="dialog">
+            <label for="prjoect-name">Add New Project:</label>
+            <input id="project-name" name="project-name" type="text"/>
+        </form>
+
+    </section>
+
+    <section id = "project-container">
+
+    </section>
+    
+
+    <section id = "container">
+
+    </section>
+    
+</body>
+</html>
