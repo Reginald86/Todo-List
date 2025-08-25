@@ -67,13 +67,18 @@ function renderProject (project) {
     projectSelectBtn.className = "projects";
     projectSelectBtn.textContent = project.name;
     projectSelectBtn.id = project.id;
-    projectContainer.append(projectSelectBtn);
+    const projectDeleteBtn = document.createElement("button");
+    projectDeleteBtn.className = "project-delete";
+    projectDeleteBtn.id = project.id;
+    projectDeleteBtn.textContent = "Delete";
+    projectContainer.append(projectSelectBtn, projectDeleteBtn);
 
     document.querySelectorAll(".projects").forEach(el => {
         el.classList.remove("active-project", "inactive-project");
     });
     projectSelectBtn.classList.add("active-project");
     activeProject();
+    projectDelete();
     
 }
 
@@ -105,3 +110,17 @@ export function activeProject() {
         });
     });
 }
+
+function projectDelete(){
+     document.querySelectorAll(".project-delete").forEach(project => {
+        project.onclick = (e) => {
+            const index = projectArray.findIndex(obj => obj.id.toString() === project.id);
+            
+            if(confirm(`Are you sure you want to delete ${projectArray[index].name} and all tasks?`)){
+                console.log(projectArray[index])
+            } 
+        }
+    });
+};
+    
+
