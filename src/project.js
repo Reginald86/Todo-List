@@ -26,7 +26,6 @@ export function createProject(){
             currentProject = project;
             projectArray.push(project);
 
-            console.log(currentProject);
             renderProject(currentProject);
             renderTasks(currentProject);
         }
@@ -63,6 +62,8 @@ export function renderTasks (project) {
 
 function renderProject (project) {
     const projectContainer = document.getElementById("project-container");
+    const projectLabelContainer = document.createElement("div");
+    projectLabelContainer.id = "label-container"
     const projectSelectBtn = document.createElement("button")
     projectSelectBtn.className = "projects";
     projectSelectBtn.textContent = project.name;
@@ -71,7 +72,9 @@ function renderProject (project) {
     projectDeleteBtn.className = "project-delete";
     projectDeleteBtn.id = project.id;
     projectDeleteBtn.textContent = "Delete";
-    projectContainer.append(projectSelectBtn, projectDeleteBtn);
+    projectContainer.append(projectLabelContainer);
+    projectLabelContainer.append(projectSelectBtn, projectDeleteBtn);
+    
 
     document.querySelectorAll(".projects").forEach(el => {
         el.classList.remove("active-project", "inactive-project");
@@ -84,43 +87,50 @@ function renderProject (project) {
 
 //Selecting current Project (using btn) 
 export function activeProject() {
-    document.querySelectorAll(".projects").forEach(project => {
-        project.addEventListener("click", (e) => {
-            console.log(project.id);
+    document.querySelector("#project-container").addEventListener('click', (e) => {
+        if(e.target.className === "projects") {
+            console.log(e.target.id);
             console.log(`${currentProject.id} is current`)
-            project.classList.add("active-project");
+            e.target.classList.add("active-project");
 
           
             //find index of Project in projectArray associated with projectSelectBtn
-            const index = projectArray.findIndex(obj => obj.id.toString() === project.id);
+            const index = projectArray.findIndex(obj => obj.id.toString() === e.target.id);
             
-            if(index !== -1 && currentProject.id !== project.id.toString()){
+            if(index !== -1 && currentProject.id !== e.target.id.toString()){
                 currentProject = projectArray[index];
-                console.log(currentProject);
+                console.log(`${currentProject.id} is now`);
                 renderTasks(currentProject);
 
-                document.querySelectorAll(".projects").forEach(p => {
-                 p.classList.remove("active-project", "inactive-project");
-                });
-
-                project.classList.add("active-project");
-            } else {
-                project.classList.add("inactive-project");
-            }
-        });
+                 document.querySelectorAll(".projects").forEach(el => {
+                el.classList.remove("active-project", "inactive-project");
     });
+                e.target.classList.add("active-project");
+
+            }
+}
+    })
 }
 
 function projectDelete(){
-     document.querySelectorAll(".project-delete").forEach(project => {
-        project.onclick = (e) => {
-            const index = projectArray.findIndex(obj => obj.id.toString() === project.id);
+     document.querySelector("#project-container").onclick = (e) => {
+            if(e.target.className === "project-delete") {
+            const index = projectArray.findIndex(obj => obj.id.toString() === e.target.id);
+            console.log(e.target.id)
+            console.log(e.target.parentNode.id)
             
             if(confirm(`Are you sure you want to delete ${projectArray[index].name} and all tasks?`)){
                 console.log(projectArray[index])
+                e.target.closest("#label-container").remove();
+                
+              
+
+              
+                
             } 
-        }
-    });
-};
+            }  
+    };
+}
+
     
 

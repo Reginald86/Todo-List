@@ -38,3 +38,7 @@
   background-color: rgba(255, 255, 224, 0.575);
   box-shadow: 0 20px yellow, 0 40px yellow;
 }
+
+#project-container{
+    border: 1px solid black;
+}
