@@ -37,6 +37,7 @@ export function renderTasks (project) {
     const container = document.getElementById("container");
     container.innerHTML = "";
     const projectHeader = document.createElement("h2");
+    projectHeader.className = "project-header"
     container.append(projectHeader)
 
     projectHeader.textContent = project.name;
@@ -44,8 +45,9 @@ export function renderTasks (project) {
     project.tasks.forEach((task, i) => {
         const taskCard = document.createElement("div");
         taskCard.id = `${task.name}-${i}`;
+        taskCard.className = "task-card"
         taskCard.dataset.index = i
-        console.log(taskCard.id)
+        //console.log(taskCard.id)
         const taskDeleteBtn = document.createElement("button");
         taskDeleteBtn.textContent = "Delete";
         taskDeleteBtn.className = "task-delete";
@@ -67,7 +69,7 @@ function renderProject (project) {
     const projectSelectBtn = document.createElement("button")
     projectSelectBtn.className = "projects";
     projectSelectBtn.textContent = project.name;
-    projectSelectBtn.id = project.id;
+    projectSelectBtn.id = `button${project.id}`;
     const projectDeleteBtn = document.createElement("button");
     projectDeleteBtn.className = "project-delete";
     projectDeleteBtn.id = project.id;
@@ -85,52 +87,55 @@ function renderProject (project) {
     
 }
 
-//Selecting current Project (using btn) 
 export function activeProject() {
-    document.querySelector("#project-container").addEventListener('click', (e) => {
-        if(e.target.className === "projects") {
-            console.log(e.target.id);
-            console.log(`${currentProject.id} is current`)
-            e.target.classList.add("active-project");
+    document.querySelector("#project-container").addEventListener("click", (e) => {
+        if (e.target.classList.contains("projects")) {
+            const compareId = e.target.id.replace("button", "");
+            const index = projectArray.findIndex(obj => obj.id.toString() === compareId);
 
-          
-            //find index of Project in projectArray associated with projectSelectBtn
-            const index = projectArray.findIndex(obj => obj.id.toString() === e.target.id);
-            
-            if(index !== -1 && currentProject.id !== e.target.id.toString()){
+            if (index !== -1 && (!currentProject || currentProject.id !== compareId)) {
                 currentProject = projectArray[index];
-                console.log(`${currentProject.id} is now`);
                 renderTasks(currentProject);
 
-                 document.querySelectorAll(".projects").forEach(el => {
-                el.classList.remove("active-project", "inactive-project");
-    });
+                document.querySelectorAll(".projects").forEach(el => {
+                    el.classList.remove("active-project");
+                });
                 e.target.classList.add("active-project");
-
             }
+        }
+    });
 }
-    })
-}
+
 
 function projectDelete(){
-     document.querySelector("#project-container").onclick = (e) => {
-            if(e.target.className === "project-delete") {
+    document.querySelector("#project-container").addEventListener("click", (e) => {
+        if(e.target.classList.contains("project-delete")) {
             const index = projectArray.findIndex(obj => obj.id.toString() === e.target.id);
-            console.log(e.target.id)
-            console.log(e.target.parentNode.id)
-            
-            if(confirm(`Are you sure you want to delete ${projectArray[index].name} and all tasks?`)){
-                console.log(projectArray[index])
-                e.target.closest("#label-container").remove();
-                
-              
 
-              
-                
-            } 
-            }  
-    };
+            if(index === -1) return;
+
+            if(confirm(`Are you sure you want to delete ${projectArray[index].name} and all tasks?`)) {
+                e.target.closest("#label-container").remove();
+                projectArray.splice(index, 1);
+                if(projectArray.length > 0) {
+                    currentProject = projectArray[index] || projectArray[index - 1];
+                    renderTasks(currentProject);
+
+                    document.querySelectorAll(".projects").forEach(el => {
+                        el.classList.remove("active-project");
+                    });
+
+                    document.querySelector(`#button${currentProject.id}`).classList.add("active-project");
+
+                } else {
+                    currentProject = null;
+                    document.querySelectorAll(".task-card, .project-header").forEach(el => el.remove());
+                }
+            }
+        }
+    });
 }
+
 
     
 
