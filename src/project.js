@@ -110,13 +110,14 @@ export function activeProject() {
 function projectDelete(){
     document.querySelector("#project-container").addEventListener("click", (e) => {
         if(e.target.classList.contains("project-delete")) {
-            const index = projectArray.findIndex(obj => obj.id.toString() === e.target.id);
+            const index = projectArray.findIndex(obj => obj.id.toString() === e.target.id); 
+            //console.log(index)
 
-            if(index === -1) return;
+            if(index === -1) return; //safety check but array should never be less than zero
 
             if(confirm(`Are you sure you want to delete ${projectArray[index].name} and all tasks?`)) {
-                e.target.closest("#label-container").remove();
-                projectArray.splice(index, 1);
+                e.target.closest("#label-container").remove(); // removes project select and delete btns
+                projectArray.splice(index, 1); // removes project from array
                 if(projectArray.length > 0) {
                     currentProject = projectArray[index] || projectArray[index - 1];
                     renderTasks(currentProject);
@@ -124,17 +125,20 @@ function projectDelete(){
                     document.querySelectorAll(".projects").forEach(el => {
                         el.classList.remove("active-project");
                     });
-
+                    //current project receives active CSS
                     document.querySelector(`#button${currentProject.id}`).classList.add("active-project");
 
                 } else {
                     currentProject = null;
+                    //remove last task card and project header
                     document.querySelectorAll(".task-card, .project-header").forEach(el => el.remove());
                 }
             }
         }
     });
 }
+
+//mdn playground to format 
 
 
     
