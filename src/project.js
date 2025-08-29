@@ -1,8 +1,10 @@
 import { deleteTask, reviseTask } from "./tasks.js";
+import { storeProjects } from "./storage.js";
 
 export let currentProject = null;
 export const projectArray = [];
 let count = 0;
+
 
 class Project {
     constructor(name, id){
@@ -28,6 +30,7 @@ export function createProject(){
 
             renderProject(currentProject);
             renderTasks(currentProject);
+            
         }
     })
 }
@@ -60,6 +63,7 @@ export function renderTasks (project) {
     })
     deleteTask();
     reviseTask();
+    storeProjects(projectArray)
 }
 
 function renderProject (project) {
