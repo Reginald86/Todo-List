@@ -29,7 +29,8 @@ export function createProject(){
             projectArray.push(project);
 
             renderProject(currentProject);
-            renderTasks(currentProject);
+            //renderTasks(currentProject);
+           
             
         }
     })
@@ -113,6 +114,7 @@ export function activeProject() {
 
 function projectDelete(){
     document.querySelector("#project-container").addEventListener("click", (e) => {
+        e.stopImmediatePropagation();
         if(e.target.classList.contains("project-delete")) {
             const index = projectArray.findIndex(obj => obj.id.toString() === e.target.id); 
             //console.log(index)
