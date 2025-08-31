@@ -3,10 +3,24 @@ import { storeProjects } from "./storage.js";
 
 export let currentProject = null;
 export const projectArray = [];
-let count = 0;
+export let count = 0;
+
+export function setCurrentProject(project) {
+    currentProject = project;
+}
+export function getCurrentProject() {
+    return currentProject;
+}
+
+export function setCount(value) {
+    count = value;
+}
+export function getCount() {
+    return count;
+}
 
 
-class Project {
+export class Project {
     constructor(name, id){
         this.name = name;
         this.id = id;
@@ -29,7 +43,7 @@ export function createProject(){
             projectArray.push(project);
 
             renderProject(currentProject);
-            //renderTasks(currentProject);
+            renderTasks(currentProject);
            
             
         }
@@ -67,7 +81,7 @@ export function renderTasks (project) {
     storeProjects(projectArray)
 }
 
-function renderProject (project) {
+export function renderProject (project) {
     const projectContainer = document.getElementById("project-container");
     const projectLabelContainer = document.createElement("div");
     projectLabelContainer.id = "label-container"
@@ -124,6 +138,8 @@ function projectDelete(){
             if(confirm(`Are you sure you want to delete ${projectArray[index].name} and all tasks?`)) {
                 e.target.closest("#label-container").remove(); // removes project select and delete btns
                 projectArray.splice(index, 1); // removes project from array
+
+                storeProjects(projectArray);
                 if(projectArray.length > 0) {
                     currentProject = projectArray[index] || projectArray[index - 1];
                     renderTasks(currentProject);
