@@ -1,4 +1,4 @@
-import { currentProject, renderTasks, projectArray } from "./project.js";
+import { state, renderTasks, projectArray } from "./project.js";
 
 export function TaskDialog() {
     const taskDialog = document.getElementById("task-dialog");
@@ -28,9 +28,9 @@ export function TaskDialog() {
         taskForm.reset();
         taskDialog.close();
 
-        if (currentProject) {
-            currentProject.tasks.push(task);
-            renderTasks(currentProject);
+        if (state.currentProject) {
+            state.currentProject.tasks.push(task);
+            renderTasks(state.currentProject);
         }
     });
 
@@ -56,11 +56,11 @@ export function deleteTask() {
             const index = taskElement.dataset.index;
             taskElement.remove();
 
-            if (currentProject && currentProject.tasks[index]) {
-                currentProject.tasks.splice(index, 1);
+            if (state.currentProject && state.currentProject.tasks[index]) {
+                state.currentProject.tasks.splice(index, 1);
             }
 
-            renderTasks(currentProject);
+            renderTasks(state.currentProject);
             console.log(projectArray);
         })
     );
@@ -83,10 +83,10 @@ export function reviseTask() {
             taskDialog.showModal();
 
         
-            document.querySelector("#task-name").value = currentProject.tasks[index].name;
-            document.querySelector("#task-date").value = currentProject.tasks[index].date;
-            document.querySelector("#task-desc").value = currentProject.tasks[index].descr;
-            document.querySelector("#task-priority").value = currentProject.tasks[index].priority;
+            document.querySelector("#task-name").value = state.currentProject.tasks[index].name;
+            document.querySelector("#task-date").value = state.currentProject.tasks[index].date;
+            document.querySelector("#task-desc").value = state.currentProject.tasks[index].descr;
+            document.querySelector("#task-priority").value = state.currentProject.tasks[index].priority;
 
     
             let changeTaskBtn = document.querySelector(".submit-task-change");
@@ -99,7 +99,7 @@ export function reviseTask() {
             }
 
             changeTaskBtn.onclick = () => {
-                Object.assign(currentProject.tasks[index], {
+                Object.assign(state.currentProject.tasks[index], {
                     name: document.querySelector("#task-name").value,
                     date: document.querySelector("#task-date").value,
                     descr: document.querySelector("#task-desc").value,
@@ -113,7 +113,7 @@ export function reviseTask() {
 
                 changeTaskBtn.remove();
 
-                renderTasks(currentProject);
+                renderTasks(state.currentProject);
             };
         })
     );

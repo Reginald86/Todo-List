@@ -1,15 +1,22 @@
 import { deleteTask, reviseTask } from "./tasks.js";
 import { storeProjects } from "./storage.js";
 
-export let currentProject = null;
+export const state = {
+    currentProject: null,
+    count: 0
+}
+
+
+
 export const projectArray = [];
-export let count = 0;
+/*export let count = 0;
+export let currentProject = null;
 
 export function setCurrentProject(project) {
     currentProject = project;
 }
 export function getCurrentProject() {
-    return currentProject;
+    //return currentProject;
 }
 
 export function setCount(value) {
@@ -18,7 +25,7 @@ export function setCount(value) {
 export function getCount() {
     return count;
 }
-
+*/
 
 export class Project {
     constructor(name, id){
@@ -36,14 +43,14 @@ export function createProject(){
     const projectName = document.getElementById("project-name");
     projectName.addEventListener("keydown", (e) => {
         if(e.key === "Enter"){
-            const project = new Project(projectName.value, count);
-            count++;
+            const project = new Project(projectName.value, state.count);
+            state.count++;
             projectName.value = "";
-            currentProject = project;
+            state.currentProject = project;
             projectArray.push(project);
 
-            renderProject(currentProject);
-            renderTasks(currentProject);
+            renderProject(state.currentProject);
+            renderTasks(state.currentProject);
            
             
         }
@@ -83,8 +90,10 @@ export function renderTasks (project) {
 
 export function renderProject (project) {
     const projectContainer = document.getElementById("project-container");
+    //projectContainer.textContent = "Projects"
     const projectLabelContainer = document.createElement("div");
     projectLabelContainer.id = "label-container"
+    projectLabelContainer.className = "label-container"
     const projectSelectBtn = document.createElement("button")
     projectSelectBtn.className = "projects";
     projectSelectBtn.textContent = project.name;
@@ -112,9 +121,9 @@ export function activeProject() {
             const compareId = e.target.id.replace("button", "");
             const index = projectArray.findIndex(obj => obj.id.toString() === compareId);
 
-            if (index !== -1 && (!currentProject || currentProject.id !== compareId)) {
-                currentProject = projectArray[index];
-                renderTasks(currentProject);
+            if (index !== -1 && (!state.currentProject || state.currentProject.id !== compareId)) {
+                state.currentProject = projectArray[index];
+                renderTasks(state.currentProject);
 
                 document.querySelectorAll(".projects").forEach(el => {
                     el.classList.remove("active-project");
@@ -141,17 +150,17 @@ function projectDelete(){
 
                 storeProjects(projectArray);
                 if(projectArray.length > 0) {
-                    currentProject = projectArray[index] || projectArray[index - 1];
-                    renderTasks(currentProject);
+                    state.currentProject = projectArray[index] || projectArray[index - 1];
+                    renderTasks(state.currentProject);
 
                     document.querySelectorAll(".projects").forEach(el => {
                         el.classList.remove("active-project");
                     });
                     //current project receives active CSS
-                    document.querySelector(`#button${currentProject.id}`).classList.add("active-project");
+                    document.querySelector(`#button${state.currentProject.id}`).classList.add("active-project");
 
                 } else {
-                    currentProject = null;
+                    state.currentProject = null;
                     //remove last task card and project header
                     document.querySelectorAll(".task-card, .project-header").forEach(el => el.remove());
                 }

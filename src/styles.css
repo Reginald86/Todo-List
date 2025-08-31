@@ -41,4 +41,17 @@
 
 #project-container{
     border: 1px solid black;
+    min-height: 200px;
+    max-height: auto;
+    display: flex;
+    flex-flow: column;
+    
+}
+.label-container{
+    border: 1px solid blue;
+    display: flex;
+    gap: 3px;
+    height: 50px;
+    min-width: 100px;
+    max-width: auto;
 }

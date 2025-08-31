@@ -1,4 +1,4 @@
-import { Project, projectArray, renderTasks, renderProject, setCurrentProject, setCount } from "./project.js";
+import { Project, projectArray, renderTasks, renderProject, state } from "./project.js";
 
 export function storeProjects(projects) {
     localStorage.setItem("projects", JSON.stringify(projects));
@@ -19,7 +19,7 @@ export function getProjects() {
     // after loading all projects, show only the last one’s tasks
     if (projectArray.length > 0) {
         const first = projectArray[0];
-        setCurrentProject(first);
+        state.currentProject = first;
         renderTasks(first);
 
         
@@ -36,5 +36,5 @@ export function getProjects() {
     const maxId = projectArray.length > 0
         ? Math.max(...projectArray.map(pj => Number(pj.id) || 0))
         : 0;
-    setCount(maxId + 1);
+    state.count = maxId + 1;
 }
