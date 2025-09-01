@@ -4,6 +4,10 @@ export function TaskDialog() {
     const taskDialog = document.getElementById("task-dialog");
     const taskForm = document.getElementById("task-form");
     const taskOpen = document.getElementById("open-task-dialog");
+    const taskFormHeader = document.createElement("h4");
+    taskFormHeader.className = "task-form-header";
+    taskFormHeader.textContent = `Add task to project: ${state.currentProject.name}`
+    taskForm.prepend(taskFormHeader);
 
     taskOpen.addEventListener("click", () => {
         const taskSubmitBtn = document.querySelector("#task-save");

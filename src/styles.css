@@ -1,3 +1,8 @@
+#main{
+    display: flex;
+    gap: 5px;
+}
+
 #task-form{
     height: 400px; 
     width: 400px;
@@ -54,4 +59,13 @@
     height: 50px;
     min-width: 100px;
     max-width: auto;
+}
+
+#due-card{
+    display: flex;
+}
+
+.due-project{
+    font-size: 2em;
+    font-weight: bold;
 }
